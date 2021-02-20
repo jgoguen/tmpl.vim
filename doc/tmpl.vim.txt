@@ -1,0 +1,131 @@
+*tmpl.vim*
+
+tmpl.vim - vim file templates
+
+=================================================================================
+CONTENTS                                                      *tmpl.vim-contents*
+
+  1. Introduction................................|tmpl.vim-introduction|
+    1.1. Examples................................|tmpl.vim-examples|
+  2. Global Options..............................|tmpl.vim-options|
+  3. Commands....................................|tmpl.vim-commands|
+  4. Template Tags...............................|tmpl.vim-tags|
+    4.1. Variables...............................|tmpl.vim-tags-variables|
+    4.2. Includes................................|tmpl.vim-tags-include|
+
+=================================================================================
+1. Introduction                                           *tmpl.vim-introduction*
+
+tmpl.vim provides automated loading of templates for new files. You can load
+templates for a specific environment, including on a per-buffer basis, for
+various file types. Template files are kept in the |'runtimepath'|, allowing you
+to easily add your own templates separately from this plugin (and other plugins
+can contribute plugins).
+
+Templates are loaded from a directory named `templates` on the |'runtimepath'|.
+The name of the template to load is constructed:
+
+1. The template environment is found (if none is given the default comes from
+	 |g:tmplvim_default_environment|, or `default` if that is undefined). The
+	 template environment may be overridden in each buffer by setting
+	 |b:tmplvim_default_environment|.
+2. The file extension is converted to lower-case and added to the template name.
+3. If no file extension is found, the name of the file is converted to
+	 lower-case and added to the template name as an extension.
+
+---------------------------------------------------------------------------------
+1.1 Examples                                                  *tmpl.vim-examples*
+
+1. For a buffer with no name, no template file will be loaded automatically.
+2. A buffer for `module.PY` will load the template `default.py`.
+3. A buffer for `setup.sh` will load the template `default.sh`.
+4. A buffer for `TARGETS` will load the template `default.targets`.
+5. A buffer for `Makefile` with |g:tmplvim_default_environment| set to
+	 `workplace` will load the template `workplace.makefile`.
+6. A buffer for `setup.py` with |b:tmplvim_default_environment| set to
+	 `myproject` will load the template `myproject.py`.
+
+=================================================================================
+2. Global Options                                              *tmpl.vim-options*
+
+g:tmplvim_default_environment                     *g:tmplvim_default_environment*
+                                                  *b:tmplvim_default_environment*
+  Type: |String|
+  Default: `'default'`
+
+  Set the default template base name. This can be overridden on a per-buffer
+  basis by setting `b:tmplvim_default_environment`.
+
+g:tmplvim_template_vars                                 *g:tmplvim_template_vars*
+
+  Type: |Dictionary|
+  Default: `{}`
+
+  Map template variables to the preferred value. Template variables are special
+  tags in a template file which are expanded when the template is inserted into
+  a buffer. The tag `<#TAG_NAME#>` requires `TAG_NAME` to be present in
+  `g:tmplvim_template_vars` and will be replaced with the value of the
+  |Dictionary| entry. Any tags without a corresponding entry will be ignored.
+
+g:tmplvim_author                                               *g:tmplvim_author*
+
+  Type: |String|
+  Default: `$USER`
+
+  The value to replace the template variable tag (see |tmplvim-tags-variables|)
+  `AUTHOR` with. If not given, the value of the `$USER` environment variable
+  will be the default value.
+
+=================================================================================
+3. Commands                                                   *tmpl.vim-commands*
+
+LoadTemplateFile `name`                                        *LoadTemplateFile*
+
+  Load a template file into the current buffer. If `name` is given use that,
+  otherwise the value of |g:tmplvim_default_environment| will be used.
+
+=================================================================================
+4. Template Tags                                                  *tmpl.vim-tags*
+
+Templates may contain tags which will be automatically expanded when the
+template is loaded into the buffer. There are two types of tags:
+
+1. Template variables (|tmpl.vim-tags-variables|)
+2. Template includes (|tmpl.vim-tags-include|)
+
+Template includes are processed first, then variables once includes have been
+inserted into the buffer. Nested includes are not currently supported.
+
+---------------------------------------------------------------------------------
+4.1. Template variables                                 *tmpl.vim-tags-variables*
+
+Template variable tags are upper-case letters surrounded by `<#` and `#>`. The
+value of a template variable comes from |g:tmplvim_template_vars|, except for
+some specific reserved tag names:
+
+1. `DATE`: Always replaced with the value of `strftime('%Y-%m-%d')` (e.g.
+   `2020-03-04`, see |strftime()|)
+2. `YEAR`: Always replaced with the value of `strftime('%Y')` (e.g. `2020`, see
+   |strftime()|)
+3. `TIME`: Always replaced with the value of `strftime('%H:%M:%S')` (e.g.
+   `13:03:34`, see |strftime()|)
+4. `AUTHOR`: Always replaced with the value of |g:tmplvim_author|, or the value
+   of `$USER` if that is not set.
+5. `DIRNAME`: Always replaced with the name of the directory the file is in.
+6. `BASENAME`: Always replaced with the name of the file without extensions.
+7. `UPPERBASENAME`: Always replaced with the name of the file without extensions
+	 in upper-case.
+
+---------------------------------------------------------------------------------
+4.2. Template includes                                    *tmpl.vim-tags-include*
+
+Template include tags are letters, numbers, or periods surrounded by `<$` and
+`$>`. The tag name is expected to be the name of another template, which may
+include template variables but may not include other template includes. For
+example, the include tag `<$ LICENSE.MIT $>` will be replaced with the contents
+of the template file named `LICENSE.MIT`.
+
+To accommodate including files in source code templates, an include with the
+same extension as the current buffer will be searched for and preferred if
+found. For example, the include tag `<$ LICENSE.MIT $>` in `setup.py` would use
+the template named `LICENSE.MIT.py` if it exists, or `LICENSE.MIT` if not.
