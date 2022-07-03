@@ -49,8 +49,8 @@ function! tmpl#LoadTemplateFile(...) abort
 	endif
 
 	execute printf('silent! 0r%s', templates[0])
-	call <SID>expand_include_vars()
-	call <SID>expand_tmpl_vars()
+	call tmpl#ExpandIncludeVars()
+	call tmpl#ExpandTmplVars()
 	set nomodified
 endfunction
 
@@ -84,7 +84,7 @@ function! s:templates_for_glob(glob) abort
 	return templates
 endfunction
 
-function! s:expand_tmpl_vars() abort
+function! tmpl#ExpandTmplVars() abort
 	let old_winstate = winsaveview()
 	let old_query = getreg('/')
 
@@ -124,7 +124,7 @@ function! s:expand_tmpl_vars() abort
 	call winrestview(old_winstate)
 endfunction
 
-function! s:expand_include_vars()
+function! tmpl#ExpandIncludeVars()
 	let old_winstate = winsaveview()
 	let old_query = getreg('/')
 	let format = expand('%:e')
