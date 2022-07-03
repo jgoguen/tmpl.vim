@@ -1,0 +1,10 @@
+Given (template variables):
+  <# AUTHOR #>
+  <# WHOAMI #>
+
+Execute (run variable replacement):
+  call tmpl#ExpandTmplVars()
+
+Expect (replaced variables):
+  jgoguen
+  A test

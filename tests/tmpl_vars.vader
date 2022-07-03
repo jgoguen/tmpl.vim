@@ -1,0 +1,10 @@
+Before:
+  let g:tmplvim_author = 'jgoguen'
+  let g:tmplvim_template_vars = {'WHOAMI': 'A test'}
+
+Include (static variable tests): suites/template_static_vars.vader
+Include (date variable tests): suites/date_vars.vader
+
+Include (file include tests): suites/include_file.vader
+
+Include (var does not exist): suites/no_such_var.vader

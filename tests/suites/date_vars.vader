@@ -1,0 +1,26 @@
+# Simple date
+Given (date template):
+  <# DATE #>
+
+Execute (run variable replacement):
+  let datestr = strftime('%Y-%m-%d')
+  call tmpl#ExpandTmplVars()
+  AssertEqual getline(1), datestr
+
+# Year
+Given (year template):
+  <# YEAR #>
+
+Execute (run variable replacement):
+  let datestr = strftime('%Y')
+  call tmpl#ExpandTmplVars()
+  AssertEqual getline(1), datestr
+
+# Time
+Given (time template):
+  <# TIME #>
+
+Execute (run variable replacement):
+  let datestr = strftime('%H:%M:%S')
+  call tmpl#ExpandTmplVars()
+  AssertEqual getline(1), datestr

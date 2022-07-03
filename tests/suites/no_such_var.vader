@@ -1,0 +1,8 @@
+Given (variable with no replacement):
+  <# I_DO_NOT_EXIST #>
+
+Execute (run variable replacement):
+  call tmpl#ExpandTmplVars()
+
+Expect (no change):
+  <# I_DO_NOT_EXIST #>
