@@ -124,7 +124,7 @@ function! tmpl#ExpandTmplVars() abort
 	call winrestview(old_winstate)
 endfunction
 
-function! tmpl#ExpandIncludeVars()
+function! tmpl#ExpandIncludeVars() abort
 	let old_winstate = winsaveview()
 	let old_query = getreg('/')
 	let format = expand('%:e')
