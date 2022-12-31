@@ -19,19 +19,19 @@ It is recommended to use a plugin manager to install `tmpl.vim`.
 ### With [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'jgoguen/tmpl.vim'
+Plug 'https://codeberg.org/jgoguen/tmpl.vim'
 ```
 
 ### With [dein.vim](https://github.com/Shougo/dein.vim)
 
 ```vim
-call dein#add('jgoguen/tmpl.vim')
+call dein#add('https://codeberg.org/jgoguen/tmpl.vim')
 ```
 
 ### With [minpac](https://github.com/k-takata/minpac)
 
 ```vim
-call minpac#add('jgoguen/tmpl.vim')
+call minpac#add('https://codeberg.org/jgoguen/tmpl.vim')
 ```
 
 ### With vim 8 plugins
@@ -41,13 +41,13 @@ Clone the repository to `pack/plugins/start`:
 For vim 8:
 ```sh
 mkdir -p ~/.vim/pack/plugins/start
-git clone https://github.com/jgoguen/tmpl.vim ~/.vim/pack/plugins/start/tmpl.vim
+git clone https://codeberg.org/jgoguen/tmpl.vim ~/.vim/pack/plugins/start/tmpl.vim
 ```
 
 For Neovim:
 ```sh
 mkdir -p "${XDG_DATA_HOME:-${HOME}/.local/share}/nvim/site/pack/plugins/start"
-git clone https://github.com/jgoguen/tmpl.vim "${XDG_DATA_HOME:-${HOME}/.local/share}/nvim/site/pack/plugins/start"
+git clone https://codeberg.org/jgoguen/tmpl.vim "${XDG_DATA_HOME:-${HOME}/.local/share}/nvim/site/pack/plugins/start"
 ```
 
 ## Configuration
